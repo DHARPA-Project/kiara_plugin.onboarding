@@ -48,12 +48,6 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-      <link rel="stylesheet" href="../../css/ansi-colours.css">
-    
-      <link rel="stylesheet" href="../../css/jupyter-cells.css">
-    
-      <link rel="stylesheet" href="../../css/pandas-dataframe.css">
-    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -79,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kiara_info.operations.onboard.zenodo_record" class="md-skip">
+        <a href="#kiara_info.operations.download.file" class="md-skip">
           Skip to content
         </a>
       
@@ -313,6 +307,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.download.file" class="md-nav__link">
+    download.file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
     onboard.zenodo_record
   </a>
@@ -483,10 +484,63 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_1_3" type="checkbox" id="__nav_5_1_1_3" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../reference/kiara_plugin/onboarding/modules/__init__/">modules</a>
+          
+            <label for="__nav_5_1_1_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="modules" data-md-level="4">
+        <label class="md-nav__title" for="__nav_5_1_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          modules
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../reference/kiara_plugin/onboarding/modules/__init__/" class="md-nav__link">
-        modules
+      <a href="../../reference/kiara_plugin/onboarding/modules/files/" class="md-nav__link">
+        files
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/onboarding/modules/zenodo/" class="md-nav__link">
+        zenodo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -551,6 +605,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.download.file" class="md-nav__link">
+    download.file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
     onboard.zenodo_record
   </a>
@@ -575,7 +636,84 @@
 
   <h1>operations</h1>
 
-<h3 id="kiara_info.operations.onboard.zenodo_record"><code>onboard.zenodo_record</code><a class="headerlink" href="#kiara_info.operations.onboard.zenodo_record" title="Permanent link">&para;</a></h3>
+<h3 id="kiara_info.operations.download.file"><code>download.file</code><a class="headerlink" href="#kiara_info.operations.download.file" title="Permanent link">&para;</a></h3>
+
+
+<table>
+    <tr>
+        <td>Documentation</td>
+        <td><p>-- n/a --</p>
+</td>
+    </tr>
+    <tr>
+        <td>Inputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>url</td>
+<td>string</td>
+<td>The url of the file to download.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>file_name</td>
+<td>string</td>
+<td>The file name metadata to use for the downloaded file.</td>
+<td>no</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+    <tr>
+        <td>Outputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>file</td>
+<td>file</td>
+<td>The downloaded file.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>download_metadata</td>
+<td>dict</td>
+<td>Metadata about the download.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+</table><h3 id="kiara_info.operations.onboard.zenodo_record"><code>onboard.zenodo_record</code><a class="headerlink" href="#kiara_info.operations.onboard.zenodo_record" title="Permanent link">&para;</a></h3>
 
 
 <table>
