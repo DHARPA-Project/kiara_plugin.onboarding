@@ -17,7 +17,7 @@
         <link rel="next" href="../../usage/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.4">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9c788c91.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
@@ -240,12 +240,13 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_2">
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="true">
           Package contents
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -314,6 +315,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.download.file_bundle" class="md-nav__link">
+    download.file_bundle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
     onboard.zenodo_record
   </a>
@@ -376,12 +384,13 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
           API reference
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -402,12 +411,13 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_5_1">
+        <label class="md-nav__link" for="__nav_5_1" tabindex="0" aria-expanded="false">
           kiara_plugin
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -428,8 +438,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_1" type="checkbox" id="__nav_5_1_1" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5_1_1" type="checkbox" id="__nav_5_1_1" >
       
       
       
@@ -488,8 +499,9 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_1_3" type="checkbox" id="__nav_5_1_1_3" >
       
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5_1_1_3" type="checkbox" id="__nav_5_1_1_3" >
       
       
       
@@ -612,6 +624,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.download.file_bundle" class="md-nav__link">
+    download.file_bundle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
     onboard.zenodo_record
   </a>
@@ -670,7 +689,7 @@
 
 <td>file_name</td>
 <td>string</td>
-<td>The file name metadata to use for the downloaded file.</td>
+<td>The file name to use for the downloaded file.</td>
 <td>no</td>
 <td></td>
     </tr>
@@ -698,6 +717,83 @@
 <td>file</td>
 <td>file</td>
 <td>The downloaded file.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>download_metadata</td>
+<td>dict</td>
+<td>Metadata about the download.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+</table><h3 id="kiara_info.operations.download.file_bundle"><code>download.file_bundle</code><a class="headerlink" href="#kiara_info.operations.download.file_bundle" title="Permanent link">&para;</a></h3>
+
+
+<table>
+    <tr>
+        <td>Documentation</td>
+        <td><p>-- n/a --</p>
+</td>
+    </tr>
+    <tr>
+        <td>Inputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>url</td>
+<td>string</td>
+<td>The url of an archive/zip file to download.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>sub_path</td>
+<td>string</td>
+<td>A relative path to select only a sub-folder from the archive.</td>
+<td>no</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+    <tr>
+        <td>Outputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>file_bundle</td>
+<td>file_bundle</td>
+<td>The downloaded file bundle.</td>
 <td>yes</td>
 <td></td>
     </tr>
@@ -821,10 +917,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      <script src="../../assets/javascripts/bundle.ba449ae6.min.js"></script>
       
     
   </body>
