@@ -17,7 +17,7 @@
         <link rel="next" href="../../usage/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.4">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.9c788c91.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
@@ -145,7 +145,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -317,6 +317,20 @@
         <li class="md-nav__item">
   <a href="#kiara_info.operations.download.file_bundle" class="md-nav__link">
     download.file_bundle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.operations.import.file" class="md-nav__link">
+    import.file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.operations.import.file_bundle" class="md-nav__link">
+    import.file_bundle
   </a>
   
 </li>
@@ -631,6 +645,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.import.file" class="md-nav__link">
+    import.file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.operations.import.file_bundle" class="md-nav__link">
+    import.file_bundle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
     onboard.zenodo_record
   </a>
@@ -661,7 +689,9 @@
 <table>
     <tr>
         <td>Documentation</td>
-        <td><p>-- n/a --</p>
+        <td><p>Download a single file from a remote location.</p>
+<p>The result of this operation is a single value of type 'file' (basically an array of raw bytes), which can then be used in other modules to
+create more meaningful data structures.</p>
 </td>
     </tr>
     <tr>
@@ -809,6 +839,160 @@
 </table>
 </td>
     </tr>
+</table><h3 id="kiara_info.operations.import.file"><code>import.file</code><a class="headerlink" href="#kiara_info.operations.import.file" title="Permanent link">&para;</a></h3>
+
+
+<table>
+    <tr>
+        <td>Documentation</td>
+        <td><p>A generic module to import a file from any local or remote location.</p>
+</td>
+    </tr>
+    <tr>
+        <td>Inputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>uri</td>
+<td>string</td>
+<td>The uri (url/path/...) of the file to import.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>import_metadata</td>
+<td>dict</td>
+<td>Metadata you want to attach to the file.</td>
+<td>no</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+    <tr>
+        <td>Outputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>file</td>
+<td>file</td>
+<td>The imported file.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>import_metadata</td>
+<td>dict</td>
+<td>Metadata about the import and file.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+</table><h3 id="kiara_info.operations.import.file_bundle"><code>import.file_bundle</code><a class="headerlink" href="#kiara_info.operations.import.file_bundle" title="Permanent link">&para;</a></h3>
+
+
+<table>
+    <tr>
+        <td>Documentation</td>
+        <td><p>A generic module to import a file bundle from any local or remote location.</p>
+</td>
+    </tr>
+    <tr>
+        <td>Inputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>uri</td>
+<td>string</td>
+<td>The uri (url/path/...) of the file to import.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>import_metadata</td>
+<td>dict</td>
+<td>Metadata you want to attach to the file bundle.</td>
+<td>no</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
+    <tr>
+        <td>Outputs</td>
+        <td>
+<table>
+    <thead>
+    <tr>
+        <th>field name</th>
+        <th>type</th>
+        <th>description</th>
+        <th>required</th>
+        <th>default</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+
+<td>file_bundle</td>
+<td>file_bundle</td>
+<td>The imported file bundle.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+<td>import_metadata</td>
+<td>dict</td>
+<td>Metadata about the import and file bundle.</td>
+<td>yes</td>
+<td></td>
+    </tr>
+
+    </tbody>
+</table>
+</td>
+    </tr>
 </table><h3 id="kiara_info.operations.onboard.zenodo_record"><code>onboard.zenodo_record</code><a class="headerlink" href="#kiara_info.operations.onboard.zenodo_record" title="Permanent link">&para;</a></h3>
 
 
@@ -920,7 +1104,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.ba449ae6.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
       
     
   </body>
