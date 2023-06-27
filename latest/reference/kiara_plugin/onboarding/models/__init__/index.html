@@ -3042,7 +3042,10 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 <span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FileFromGithubModel</span><span class="p">(</span><span class="n">OnboardDataModel</span><span class="p">):</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FileFromGithubModel</span><span class="p">(</span><span class="n">OnboardDataModel</span><span class="p">):</span>
 
     <span class="n">_kiara_model_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;onboarding.file.from.github&quot;</span>
 
@@ -3092,7 +3095,10 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 
         <span class="n">archive_zip</span><span class="p">:</span> <span class="n">KiaraFile</span>
         <span class="n">archive_zip</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">attach_metadata</span><span class="o">=</span><span class="n">attach_metadata</span><span class="p">,</span> <span class="n">return_md5_hash</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">attach_metadata</span><span class="o">=</span><span class="n">attach_metadata</span><span class="p">,</span>
+            <span class="n">file_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">.zip&quot;</span><span class="p">,</span>
+            <span class="n">return_md5_hash</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">base_sub_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -3274,7 +3280,10 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 <span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">retrieve_bundle</span><span class="p">(</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">retrieve_bundle</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">import_config</span><span class="p">:</span> <span class="n">FolderImportConfig</span><span class="p">,</span> <span class="n">attach_metadata</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KiaraFileBundle</span><span class="p">:</span>
 
@@ -3294,7 +3303,10 @@ sub-class a pydantic BaseModel or implement custom base classes.</p>
 
     <span class="n">archive_zip</span><span class="p">:</span> <span class="n">KiaraFile</span>
     <span class="n">archive_zip</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
-        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">attach_metadata</span><span class="o">=</span><span class="n">attach_metadata</span><span class="p">,</span> <span class="n">return_md5_hash</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+        <span class="n">attach_metadata</span><span class="o">=</span><span class="n">attach_metadata</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">.zip&quot;</span><span class="p">,</span>
+        <span class="n">return_md5_hash</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">base_sub_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>

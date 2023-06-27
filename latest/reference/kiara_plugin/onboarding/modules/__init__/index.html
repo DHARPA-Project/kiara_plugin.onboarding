@@ -869,15 +869,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_file_types" class="md-nav__link">
-    include_file_types
+  <a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_files" class="md-nav__link">
+    include_files
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_file_types" class="md-nav__link">
-    exclude_file_types
+  <a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_files" class="md-nav__link">
+    exclude_files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_dirs" class="md-nav__link">
+    exclude_dirs
   </a>
   
 </li>
@@ -1677,7 +1684,11 @@
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OnboardFileBundleConfig</span><span class="p">(</span><span class="n">KiaraModuleConfig</span><span class="p">):</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OnboardFileBundleConfig</span><span class="p">(</span><span class="n">KiaraModuleConfig</span><span class="p">):</span>
 
     <span class="n">onboard_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name of the type of onboarding.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
@@ -1686,11 +1697,15 @@
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Whether to attach onboarding metadata.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">)</span>
     <span class="n">sub_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;The sub path to use.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">include_file_types</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">include_files</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;File types to include.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">)</span>
-    <span class="n">exclude_file_types</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">exclude_files</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;File types to include.&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">exclude_dirs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Exclude directories that end with one of those tokens.&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
         </details>
@@ -1769,15 +1784,15 @@
 
 
 
-<h5 id="kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_file_types" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">include_file_types</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;File types to include.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h5 id="kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_files" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">include_files</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;File types to include.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
-<a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_file_types" class="headerlink" title="Permanent link">&para;</a></h5>
+<a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.include_files" class="headerlink" title="Permanent link">&para;</a></h5>
 
 
   <div class="doc doc-contents ">
@@ -1789,15 +1804,35 @@
 
 
 
-<h5 id="kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_file_types" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">exclude_file_types</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;File types to include.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h5 id="kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_files" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">exclude_files</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;File types to include.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
       <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
   </span>
 
-<a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_file_types" class="headerlink" title="Permanent link">&para;</a></h5>
+<a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_files" class="headerlink" title="Permanent link">&para;</a></h5>
+
+
+  <div class="doc doc-contents ">
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_dirs" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">exclude_dirs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Exclude directories that end with one of those tokens.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#kiara_plugin.onboarding.modules.OnboardFileBundleConfig.exclude_dirs" class="headerlink" title="Permanent link">&para;</a></h5>
 
 
   <div class="doc doc-contents ">
@@ -1836,11 +1871,7 @@
 
         <details class="quote">
           <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/onboarding/modules/__init__.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
@@ -1969,7 +2000,34 @@
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OnboardFileBundleModule</span><span class="p">(</span><span class="n">KiaraModule</span><span class="p">):</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">OnboardFileBundleModule</span><span class="p">(</span><span class="n">KiaraModule</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic module that imports a file from one of several possible sources.&quot;&quot;&quot;</span>
 
     <span class="n">_module_type_name</span> <span class="o">=</span> <span class="s2">&quot;import.file_bundle&quot;</span>
@@ -1999,17 +2057,23 @@
                 <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;The sub path to use. If not specified, the root of the source folder will be used.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;include_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of file extensions to include. If not specified, all file extensions are included.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Include files that end with one of those tokens. If not specified, all file extensions are included.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">}</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of file extensions to exclude. If not specified, no file extensions are excluded.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Exclude files that end with one of those tokens. If not specified, no file extensions are excluded.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Exclude directories that end with one of those tokens. If not specified, no directories are excluded.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">}</span>
 
@@ -2081,16 +2145,33 @@
         <span class="k">if</span> <span class="n">sub_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sub_path</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;sub_path&quot;</span><span class="p">)</span>
 
-        <span class="n">include</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">include</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span>
-        <span class="n">exclude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span>
+            <span class="n">_include</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_include</span><span class="p">:</span>
+                <span class="n">include</span> <span class="o">=</span> <span class="n">_include</span><span class="o">.</span><span class="n">list_data</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">exclude</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span>
+            <span class="n">_exclude</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_exclude</span><span class="p">:</span>
+                <span class="n">exclude</span> <span class="o">=</span> <span class="n">_exclude</span><span class="o">.</span><span class="n">list_data</span>
+        <span class="n">exclude_dirs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exclude_dirs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_exclude_dirs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_exclude_dirs</span><span class="p">:</span>
+                <span class="n">exclude_dirs</span> <span class="o">=</span> <span class="n">_exclude_dirs</span><span class="o">.</span><span class="n">list_data</span>
 
-        <span class="n">import_config</span> <span class="o">=</span> <span class="n">FolderImportConfig</span><span class="p">(</span>
-            <span class="n">sub_path</span><span class="o">=</span><span class="n">sub_path</span><span class="p">,</span> <span class="n">include_files</span><span class="o">=</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude_files</span><span class="o">=</span><span class="n">exclude</span>
-        <span class="p">)</span>
+        <span class="n">import_config_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;sub_path&quot;</span><span class="p">:</span> <span class="n">sub_path</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">include</span><span class="p">:</span>
+            <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;include_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">include</span>
+        <span class="k">if</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exclude</span>
+        <span class="k">if</span> <span class="n">exclude_dirs</span><span class="p">:</span>
+            <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exclude_dirs</span>
+
+        <span class="n">import_config</span> <span class="o">=</span> <span class="n">FolderImportConfig</span><span class="p">(</span><span class="o">**</span><span class="n">import_config_data</span><span class="p">)</span>
         <span class="n">attach_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;attach_metadata&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">attach_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">attach_metadata</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;attach_metadata&quot;</span><span class="p">)</span>
@@ -2152,11 +2233,7 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/onboarding/modules/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
@@ -2228,7 +2305,17 @@
 <span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
-<span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_inputs_schema</span><span class="p">(</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_inputs_schema</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueMapSchema</span><span class="p">:</span>
 
@@ -2252,17 +2339,23 @@
             <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;The sub path to use. If not specified, the root of the source folder will be used.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;include_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of file extensions to include. If not specified, all file extensions are included.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Include files that end with one of those tokens. If not specified, all file extensions are included.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of file extensions to exclude. If not specified, no file extensions are excluded.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Exclude files that end with one of those tokens. If not specified, no file extensions are excluded.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;Exclude directories that end with one of those tokens. If not specified, no directories are excluded.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
 
@@ -2325,17 +2418,17 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/onboarding/modules/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_outputs_schema</span><span class="p">(</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_outputs_schema</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueMapSchema</span><span class="p">:</span>
 
@@ -2366,17 +2459,7 @@
 
       <details class="quote">
         <summary>Source code in <code>/opt/hostedtoolcache/Python/3.11.4/x64/lib/python3.11/site-packages/kiara_plugin/onboarding/modules/__init__.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
 <span class="normal">265</span>
@@ -2403,7 +2486,34 @@
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
 
     <span class="n">onboard_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;onboard_type&quot;</span><span class="p">)</span>
     <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;source&quot;</span><span class="p">)</span>
@@ -2419,16 +2529,33 @@
     <span class="k">if</span> <span class="n">sub_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">sub_path</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;sub_path&quot;</span><span class="p">)</span>
 
-    <span class="n">include</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span>
+    <span class="n">include</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">include</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;include_file_types&quot;</span><span class="p">)</span>
-    <span class="n">exclude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span>
+        <span class="n">_include</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;include_files&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_include</span><span class="p">:</span>
+            <span class="n">include</span> <span class="o">=</span> <span class="n">_include</span><span class="o">.</span><span class="n">list_data</span>
+    <span class="n">exclude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">exclude</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_file_types&quot;</span><span class="p">)</span>
+        <span class="n">_exclude</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_exclude</span><span class="p">:</span>
+            <span class="n">exclude</span> <span class="o">=</span> <span class="n">_exclude</span><span class="o">.</span><span class="n">list_data</span>
+    <span class="n">exclude_dirs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">exclude_dirs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_exclude_dirs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_exclude_dirs</span><span class="p">:</span>
+            <span class="n">exclude_dirs</span> <span class="o">=</span> <span class="n">_exclude_dirs</span><span class="o">.</span><span class="n">list_data</span>
 
-    <span class="n">import_config</span> <span class="o">=</span> <span class="n">FolderImportConfig</span><span class="p">(</span>
-        <span class="n">sub_path</span><span class="o">=</span><span class="n">sub_path</span><span class="p">,</span> <span class="n">include_files</span><span class="o">=</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude_files</span><span class="o">=</span><span class="n">exclude</span>
-    <span class="p">)</span>
+    <span class="n">import_config_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;sub_path&quot;</span><span class="p">:</span> <span class="n">sub_path</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">include</span><span class="p">:</span>
+        <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;include_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">include</span>
+    <span class="k">if</span> <span class="n">exclude</span><span class="p">:</span>
+        <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;exclude_files&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exclude</span>
+    <span class="k">if</span> <span class="n">exclude_dirs</span><span class="p">:</span>
+        <span class="n">import_config_data</span><span class="p">[</span><span class="s2">&quot;exclude_dirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exclude_dirs</span>
+
+    <span class="n">import_config</span> <span class="o">=</span> <span class="n">FolderImportConfig</span><span class="p">(</span><span class="o">**</span><span class="n">import_config_data</span><span class="p">)</span>
     <span class="n">attach_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_config_value</span><span class="p">(</span><span class="s2">&quot;attach_metadata&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">attach_metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">attach_metadata</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;attach_metadata&quot;</span><span class="p">)</span>
