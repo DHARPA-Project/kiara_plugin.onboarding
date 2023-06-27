@@ -11,17 +11,17 @@
       
       
       
-        <link rel="prev" href="../kiara_model_types/">
+        <link rel="prev" href="../module_types/">
       
       
-        <link rel="next" href="../../usage/">
+        <link rel="next" href="../operations/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
     
     
       
-        <title>operations - kiara_plugin.onboarding</title>
+        <title>kiara_model_types - kiara_plugin.onboarding</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kiara_info.operations.import.file" class="md-skip">
+        <a href="#kiara_info.kiara_model_types.onboarding.file.from.local_file" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              operations
+              kiara_model_types
             
           </span>
         </div>
@@ -272,20 +272,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../kiara_model_types/" class="md-nav__link">
-        kiara_model_types
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -296,12 +282,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          operations
+          kiara_model_types
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        operations
+        kiara_model_types
       </a>
       
         
@@ -318,22 +304,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.import.file" class="md-nav__link">
-    import.file
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.local_file" class="md-nav__link">
+    onboarding.file.from.local_file
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.import.file_bundle" class="md-nav__link">
-    import.file_bundle
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.url" class="md-nav__link">
+    onboarding.file.from.url
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
-    onboard.zenodo_record
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.zenodo" class="md-nav__link">
+    onboarding.file.from.zenodo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.github" class="md-nav__link">
+    onboarding.file.from.github
   </a>
   
 </li>
@@ -342,6 +335,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/" class="md-nav__link">
+        operations
+      </a>
     </li>
   
 
@@ -735,22 +742,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.import.file" class="md-nav__link">
-    import.file
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.local_file" class="md-nav__link">
+    onboarding.file.from.local_file
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.import.file_bundle" class="md-nav__link">
-    import.file_bundle
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.url" class="md-nav__link">
+    onboarding.file.from.url
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#kiara_info.operations.onboard.zenodo_record" class="md-nav__link">
-    onboard.zenodo_record
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.zenodo" class="md-nav__link">
+    onboarding.file.from.zenodo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.kiara_model_types.onboarding.file.from.github" class="md-nav__link">
+    onboarding.file.from.github
   </a>
   
 </li>
@@ -770,261 +784,100 @@
                   
 
 
-  <h1>operations</h1>
+  <h1>kiara_model_types</h1>
 
-<h3 id="kiara_info.operations.import.file"><code>import.file</code><a class="headerlink" href="#kiara_info.operations.import.file" title="Permanent link">&para;</a></h3>
-
-
-<table>
-    <tr>
-        <td>Documentation</td>
-        <td><p>A generic module that imports a file from one of several possible sources.</p>
-</td>
-    </tr>
-    <tr>
-        <td>Inputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>source</td>
-<td>string</td>
-<td>The source uri of the file to be onboarded.</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-<td>file_name</td>
-<td>string</td>
-<td>The file name to use for the onboarded file (defaults to source file name if possible).</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-<td>attach_metadata</td>
-<td>boolean</td>
-<td>Whether to attach onboarding metadata to the result file.</td>
-<td>no</td>
-<td>True</td>
-    </tr>
-
-<td>onboard_type</td>
-<td>string</td>
-<td>The type of onboarding to use. Allowed: github, local_file, url, zenodo</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-    <tr>
-        <td>Outputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>file</td>
-<td>file</td>
-<td>The file that was onboarded.</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-</table><h3 id="kiara_info.operations.import.file_bundle"><code>import.file_bundle</code><a class="headerlink" href="#kiara_info.operations.import.file_bundle" title="Permanent link">&para;</a></h3>
-
-
-<table>
-    <tr>
-        <td>Documentation</td>
-        <td><p>A generic module that imports a file from one of several possible sources.</p>
-</td>
-    </tr>
-    <tr>
-        <td>Inputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>source</td>
-<td>string</td>
-<td>The source uri of the file to be onboarded.</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-<td>attach_metadata</td>
-<td>boolean</td>
-<td>Whether to attach onboarding metadata.</td>
-<td>no</td>
-<td>True</td>
-    </tr>
-
-<td>sub_path</td>
-<td>string</td>
-<td>The sub path to use. If not specified, the root of the source folder will be used.</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-<td>include_file_types</td>
-<td>list</td>
-<td>A list of file extensions to include. If not specified, all file extensions are included.</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-<td>exclude_file_types</td>
-<td>list</td>
-<td>A list of file extensions to exclude. If not specified, no file extensions are excluded.</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-<td>onboard_type</td>
-<td>string</td>
-<td>The type of onboarding to use. Allowed: github, local_file, url, zenodo</td>
-<td>no</td>
-<td></td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-    <tr>
-        <td>Outputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>file_bundle</td>
-<td>file_bundle</td>
-<td>The file_bundle that was onboarded.</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-</table><h3 id="kiara_info.operations.onboard.zenodo_record"><code>onboard.zenodo_record</code><a class="headerlink" href="#kiara_info.operations.onboard.zenodo_record" title="Permanent link">&para;</a></h3>
-
-
-<table>
-    <tr>
-        <td>Documentation</td>
-        <td><p>Download a dataset from zenodo.org.</p>
-</td>
-    </tr>
-    <tr>
-        <td>Inputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>doi</td>
-<td>string</td>
-<td>The doi of the record</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-<td>include_metadata</td>
-<td>boolean</td>
-<td>Whether to write the record metadata to a file &#39;metadata.json&#39; and include it in the resulting file bundle.</td>
-<td>no</td>
-<td>True</td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-    <tr>
-        <td>Outputs</td>
-        <td>
-<table>
-    <thead>
-    <tr>
-        <th>field name</th>
-        <th>type</th>
-        <th>description</th>
-        <th>required</th>
-        <th>default</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-
-<td>file_bundle</td>
-<td>file_bundle</td>
-<td>-- n/a --</td>
-<td>yes</td>
-<td></td>
-    </tr>
-
-    </tbody>
-</table>
-</td>
-    </tr>
-</table>
+<h3 id="kiara_info.kiara_model_types.onboarding.file.from.local_file"><code>onboarding.file.from.local_file</code><a class="headerlink" href="#kiara_info.kiara_model_types.onboarding.file.from.local_file" title="Permanent link">&para;</a></h3>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
+ <span style="font-style: italic">Documentation</span>                                                                  
+ <span style="font-style: italic">             </span>   -- n/a --                                                      
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Author(s)    </span>                                                                  
+ <span style="font-style: italic">             </span>   Markus Binsteiner  <span style="font-style: italic"> markus@frkl.io </span>                            
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Context      </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Tags       </span>  onboarding                                        
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Labels     </span>  <span style="font-style: italic">package</span>: kiara_plugin.onboarding                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> References </span>  <span style="font-style: italic">source_repo</span>:                                      
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://github.com/DHARPA-Project/kiara_plugin.onboarding" target="_blank">https://github.com/DHARPA-Project/kiara_plugin…</a>   
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <span style="font-style: italic">documentation</span>:                                    
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://DHARPA-Project.github.io/kiara_plugin.onboarding/" target="_blank">https://DHARPA-Project.github.io/kiara_plugin.…</a>   
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Python class </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_class_name  </span>  FileFromLocalModel                        
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_module_name </span>  kiara_plugin.onboarding.models            
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> full_name          </span>  kiara_plugin.onboarding.models.FileFro…   
+ <span style="font-style: italic">             </span>                                                                  
+                                                                                
+</pre>
+<h3 id="kiara_info.kiara_model_types.onboarding.file.from.url"><code>onboarding.file.from.url</code><a class="headerlink" href="#kiara_info.kiara_model_types.onboarding.file.from.url" title="Permanent link">&para;</a></h3>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
+ <span style="font-style: italic">Documentation</span>                                                                  
+ <span style="font-style: italic">             </span>   -- n/a --                                                      
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Author(s)    </span>                                                                  
+ <span style="font-style: italic">             </span>   Markus Binsteiner  <span style="font-style: italic"> markus@frkl.io </span>                            
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Context      </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Tags       </span>  onboarding                                        
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Labels     </span>  <span style="font-style: italic">package</span>: kiara_plugin.onboarding                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> References </span>  <span style="font-style: italic">source_repo</span>:                                      
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://github.com/DHARPA-Project/kiara_plugin.onboarding" target="_blank">https://github.com/DHARPA-Project/kiara_plugin…</a>   
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <span style="font-style: italic">documentation</span>:                                    
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://DHARPA-Project.github.io/kiara_plugin.onboarding/" target="_blank">https://DHARPA-Project.github.io/kiara_plugin.…</a>   
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Python class </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_class_name  </span>  FileFromRemoteModel                       
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_module_name </span>  kiara_plugin.onboarding.models            
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> full_name          </span>  kiara_plugin.onboarding.models.FileFro…   
+ <span style="font-style: italic">             </span>                                                                  
+                                                                                
+</pre>
+<h3 id="kiara_info.kiara_model_types.onboarding.file.from.zenodo"><code>onboarding.file.from.zenodo</code><a class="headerlink" href="#kiara_info.kiara_model_types.onboarding.file.from.zenodo" title="Permanent link">&para;</a></h3>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
+ <span style="font-style: italic">Documentation</span>                                                                  
+ <span style="font-style: italic">             </span>   -- n/a --                                                      
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Author(s)    </span>                                                                  
+ <span style="font-style: italic">             </span>   Markus Binsteiner  <span style="font-style: italic"> markus@frkl.io </span>                            
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Context      </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Tags       </span>  onboarding                                        
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Labels     </span>  <span style="font-style: italic">package</span>: kiara_plugin.onboarding                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> References </span>  <span style="font-style: italic">source_repo</span>:                                      
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://github.com/DHARPA-Project/kiara_plugin.onboarding" target="_blank">https://github.com/DHARPA-Project/kiara_plugin…</a>   
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <span style="font-style: italic">documentation</span>:                                    
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://DHARPA-Project.github.io/kiara_plugin.onboarding/" target="_blank">https://DHARPA-Project.github.io/kiara_plugin.…</a>   
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Python class </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_class_name  </span>  FileFromZenodoModel                       
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_module_name </span>  kiara_plugin.onboarding.models            
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> full_name          </span>  kiara_plugin.onboarding.models.FileFro…   
+ <span style="font-style: italic">             </span>                                                                  
+                                                                                
+</pre>
+<h3 id="kiara_info.kiara_model_types.onboarding.file.from.github"><code>onboarding.file.from.github</code><a class="headerlink" href="#kiara_info.kiara_model_types.onboarding.file.from.github" title="Permanent link">&para;</a></h3>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
+ <span style="font-style: italic">Documentation</span>                                                                  
+ <span style="font-style: italic">             </span>   -- n/a --                                                      
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Author(s)    </span>                                                                  
+ <span style="font-style: italic">             </span>   Markus Binsteiner  <span style="font-style: italic"> markus@frkl.io </span>                            
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Context      </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Tags       </span>  onboarding                                        
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> Labels     </span>  <span style="font-style: italic">package</span>: kiara_plugin.onboarding                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> References </span>  <span style="font-style: italic">source_repo</span>:                                      
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://github.com/DHARPA-Project/kiara_plugin.onboarding" target="_blank">https://github.com/DHARPA-Project/kiara_plugin…</a>   
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <span style="font-style: italic">documentation</span>:                                    
+ <span style="font-style: italic">             </span>  <span style="font-style: italic">            </span>  <a href="https://DHARPA-Project.github.io/kiara_plugin.onboarding/" target="_blank">https://DHARPA-Project.github.io/kiara_plugin.…</a>   
+ <span style="font-style: italic">             </span>                                                                  
+ <span style="font-style: italic">Python class </span>                                                                  
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_class_name  </span>  FileFromGithubModel                       
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> python_module_name </span>  kiara_plugin.onboarding.models            
+ <span style="font-style: italic">             </span>  <span style="font-style: italic"> full_name          </span>  kiara_plugin.onboarding.models.FileFro…   
+ <span style="font-style: italic">             </span>                                                                  
+                                                                                
+</pre>
 
 
 
