@@ -10,7 +10,7 @@ sub-class a pydantic BaseModel or implement custom base classes.
 """
 import os.path
 from abc import abstractmethod
-from typing import List, Tuple, Union
+from typing import ClassVar, List, Tuple, Union
 
 from kiara.exceptions import KiaraException
 from kiara.models import KiaraModel
@@ -19,11 +19,11 @@ from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBund
 
 class OnboardDataModel(KiaraModel):
 
-    _kiara_model_id: str = None  # type: ignore
+    _kiara_model_id: ClassVar[str] = None  # type: ignore
 
     @classmethod
     def get_config_fields(cls) -> List[str]:
-        return sorted(cls.__fields__.keys())
+        return sorted(cls.model_fields.keys())
 
     @classmethod
     @abstractmethod
@@ -48,7 +48,7 @@ class OnboardDataModel(KiaraModel):
 
 class FileFromLocalModel(OnboardDataModel):
 
-    _kiara_model_id: str = "onboarding.file.from.local_file"
+    _kiara_model_id: ClassVar[str] = "onboarding.file.from.local_file"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
@@ -99,7 +99,7 @@ class FileFromLocalModel(OnboardDataModel):
 
 class FileFromRemoteModel(OnboardDataModel):
 
-    _kiara_model_id: str = "onboarding.file.from.url"
+    _kiara_model_id: ClassVar[str] = "onboarding.file.from.url"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
@@ -134,7 +134,7 @@ class FileFromRemoteModel(OnboardDataModel):
 
 class FileFromZenodoModel(OnboardDataModel):
 
-    _kiara_model_id: str = "onboarding.file.from.zenodo"
+    _kiara_model_id: ClassVar[str] = "onboarding.file.from.zenodo"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
@@ -330,7 +330,7 @@ class FileFromZenodoModel(OnboardDataModel):
 
 class FileFromZoteroModel(OnboardDataModel):
 
-    _kiara_model_id = "onboarding.file.from.zotero"
+    _kiara_model_id: ClassVar[str] = "onboarding.file.from.zotero"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
@@ -342,7 +342,7 @@ class FileFromZoteroModel(OnboardDataModel):
 
 class FileFromGithubModel(OnboardDataModel):
 
-    _kiara_model_id: str = "onboarding.file.from.github"
+    _kiara_model_id: ClassVar[str] = "onboarding.file.from.github"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:

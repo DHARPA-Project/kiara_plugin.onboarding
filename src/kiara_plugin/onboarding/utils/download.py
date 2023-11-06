@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 from kiara.exceptions import KiaraException
 from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBundle
 from kiara.utils.files import unpack_archive
+from kiara.utils.json import orjson_dumps
 from kiara_plugin.onboarding.models import OnboardDataModel
 
 
@@ -101,9 +102,11 @@ def download_file(
             "response_headers": history,
             "request_time": datetime.utcnow().replace(tzinfo=pytz.utc).isoformat(),
         }
-        _metadata = DownloadMetadata(**metadata)
-        result_file.metadata["download_info"] = _metadata.dict()
-        result_file.metadata_schemas["download_info"] = DownloadMetadata.schema_json()
+        _metadata: DownloadMetadata = DownloadMetadata(**metadata)
+        result_file.metadata["download_info"] = _metadata.model_dump()
+        result_file.metadata_schemas["download_info"] = orjson_dumps(
+            DownloadMetadata.model_json_schema()
+        )
 
     if return_md5_hash:
         return result_file, hash_md5.hexdigest()
@@ -185,7 +188,7 @@ def download_file_bundle(
             "import_config": ic_dict,
         }
         _metadata = DownloadBundleMetadata(**metadata)
-        bundle.metadata["download_info"] = _metadata.dict()
+        bundle.metadata["download_info"] = _metadata.model_dump()
         bundle.metadata_schemas["download_info"] = DownloadMetadata.schema_json()
 
     return bundle
