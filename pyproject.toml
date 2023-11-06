@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-    "setuptools>=63",
-    "setuptools_scm[toml]>7.0.0",
+    "setuptools>=64",
+    "setuptools_scm[toml]>=8",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
