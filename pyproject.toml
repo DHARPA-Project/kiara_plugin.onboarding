@@ -243,5 +243,7 @@ plugins = [
 
 # mypy per-module options:
 [[tool.mypy.overrides]]
-module = ["placholder.dummy.*"]
+module = [
+    "pyzenodo3.*"
+]
 ignore_missing_imports = true
