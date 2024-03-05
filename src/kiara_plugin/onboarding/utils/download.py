@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 from kiara.exceptions import KiaraException
 from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBundle
+from kiara.utils.dates import get_current_time_incl_timezone
 from kiara.utils.files import unpack_archive
 from kiara.utils.json import orjson_dumps
 from kiara_plugin.onboarding.models import OnboardDataModel
@@ -21,7 +22,10 @@ class DownloadMetadata(BaseModel):
     response_headers: List[Dict[str, str]] = Field(
         description="The response headers of the download request."
     )
-    request_time: str = Field(description="The time the request was made.")
+    request_time: datetime = Field(description="The time the request was made.")
+    download_time_in_seconds: float = Field(
+        description="How long the download took in seconds."
+    )
 
 
 class DownloadBundleMetadata(DownloadMetadata):
@@ -56,7 +60,6 @@ def download_file(
     import hashlib
 
     import httpx
-    import pytz
 
     if not file_name:
         # TODO: make this smarter, using content-disposition headers if available
@@ -79,7 +82,9 @@ def download_file(
         hash_md5 = hashlib.md5()  # noqa
 
     history = []
-    datetime.utcnow().replace(tzinfo=pytz.utc)
+
+    request_time = get_current_time_incl_timezone()
+
     with open(_target, "wb") as f:
         with httpx.stream("GET", url, follow_redirects=True) as r:
             if r.status_code < 200 or r.status_code >= 399:
@@ -95,12 +100,14 @@ def download_file(
                 f.write(data)
 
     result_file = KiaraFile.load_file(_target.as_posix(), file_name)
-
+    now_time = get_current_time_incl_timezone()
+    delta = (now_time - request_time).total_seconds()
     if attach_metadata:
         metadata = {
             "url": url,
             "response_headers": history,
-            "request_time": datetime.utcnow().replace(tzinfo=pytz.utc).isoformat(),
+            "request_time": request_time,
+            "download_time_in_seconds": delta,
         }
         _metadata: DownloadMetadata = DownloadMetadata(**metadata)
         result_file.metadata["download_info"] = _metadata.model_dump()
