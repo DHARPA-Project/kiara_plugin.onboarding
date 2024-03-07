@@ -232,7 +232,7 @@ class OnboardFileBundleModule(KiaraModule):
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
 
-        from kiara.models.filesystem import FolderImportConfig
+        from kiara.models.filesystem import FolderImportConfig, KiaraFileBundle
 
         bundle_name = self.get_config_value("result_bundle_name")
         if bundle_name is None:
@@ -280,20 +280,36 @@ class OnboardFileBundleModule(KiaraModule):
         if attach_metadata_to_files is None:
             attach_metadata_to_files = inputs.get_value_data("attach_metadata_to_files")
 
-        archive = self.retrieve_archive(inputs=inputs)
-        result = self.extract_archive(
-            archive_file=archive,
+        archive = self.retrieve_archive(
+            inputs=inputs,
             bundle_name=bundle_name,
             attach_metadata_to_bundle=attach_metadata_to_bundle,
             attach_metadata_to_files=attach_metadata_to_files,
             import_config=import_config,
         )
+        if isinstance(archive, KiaraFileBundle):
+            result = archive
+        else:
+            result = self.extract_archive(
+                archive_file=archive,
+                bundle_name=bundle_name,
+                attach_metadata_to_bundle=attach_metadata_to_bundle,
+                attach_metadata_to_files=attach_metadata_to_files,
+                import_config=import_config,
+            )
 
         outputs.set_value("file_bundle", result)
 
     @abc.abstractmethod
-    def retrieve_archive(self, inputs: ValueMap) -> "KiaraFile":
-        pass
+    def retrieve_archive(
+        self,
+        inputs: ValueMap,
+        bundle_name: Union[str, None],
+        attach_metadata_to_bundle: bool,
+        attach_metadata_to_files: bool,
+        import_config: "FolderImportConfig",
+    ) -> Union["KiaraFile", "KiaraFileBundle"]:
+        """Retrieve an archive file, or the actual result file bundle."""
 
     def extract_archive(
         self,
@@ -303,6 +319,7 @@ class OnboardFileBundleModule(KiaraModule):
         attach_metadata_to_files: bool,
         import_config: "FolderImportConfig",
     ) -> "KiaraFileBundle":
+        """Extract the archive file that was returned in 'retrieve_archive'."""
 
         from kiara.models.filesystem import KiaraFileBundle
 

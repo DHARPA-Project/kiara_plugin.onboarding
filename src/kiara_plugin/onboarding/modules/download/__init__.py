@@ -8,7 +8,7 @@ from kiara.models.values.value import ValueMap
 from kiara_plugin.onboarding.modules import OnboardFileBundleModule, OnboardFileModule
 
 if TYPE_CHECKING:
-    from kiara.models.filesystem import KiaraFile
+    from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBundle
 
 
 class DownloadFileModule(OnboardFileModule):
@@ -65,7 +65,14 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
 
         return result
 
-    def retrieve_archive(self, inputs: ValueMap) -> "KiaraFile":
+    def retrieve_archive(
+        self,
+        inputs: ValueMap,
+        bundle_name: Union[str, None],
+        attach_metadata_to_bundle: bool,
+        attach_metadata_to_files: bool,
+        import_config: "FolderImportConfig",
+    ) -> Union["KiaraFile", "KiaraFileBundle"]:
 
         from urllib.parse import urlparse
 
@@ -87,7 +94,7 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
 
         kiara_file: KiaraFile
 
-        kiara_file = download_file(
+        kiara_file = download_file(  # type: ignore
             url, target=tmp_file.name, attach_metadata=True, return_md5_hash=False
         )
 

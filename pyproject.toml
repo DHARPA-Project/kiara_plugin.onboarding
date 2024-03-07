@@ -244,6 +244,8 @@ plugins = [
 # mypy per-module options:
 [[tool.mypy.overrides]]
 module = [
-    "pyzenodo3.*"
+    "patoolib.*",
+    "pyzenodo3.*",
+    "ruamel.*",
 ]
 ignore_missing_imports = true

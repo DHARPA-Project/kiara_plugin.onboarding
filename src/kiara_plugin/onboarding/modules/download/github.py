@@ -5,7 +5,7 @@ from kiara.models.values.value import ValueMap
 from kiara_plugin.onboarding.modules import OnboardFileBundleModule, OnboardFileModule
 
 if TYPE_CHECKING:
-    from kiara.models.filesystem import KiaraFile
+    from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBundle
 
 
 class DownloadGithubFileModule(OnboardFileModule):
@@ -49,7 +49,7 @@ class DownloadGithubFileModule(OnboardFileModule):
         return result_file
 
 
-class DownloadFileBundleModule(OnboardFileBundleModule):
+class DownloadGithbFileBundleModule(OnboardFileBundleModule):
     """Download a file bundle from a remote github repository.
 
     If 'sub_path' is not specified, the whole repo will be used.
@@ -70,7 +70,14 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
         }
         return result
 
-    def retrieve_archive(self, inputs: ValueMap) -> "KiaraFile":
+    def retrieve_archive(
+        self,
+        inputs: ValueMap,
+        bundle_name: Union[str, None],
+        attach_metadata_to_bundle: bool,
+        attach_metadata_to_files: bool,
+        import_config: "FolderImportConfig",
+    ) -> Union["KiaraFile", "KiaraFileBundle"]:
 
         from kiara_plugin.onboarding.utils.download import download_file
 
