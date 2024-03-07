@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
-from typing import List, Union
+import abc
+import atexit
+import shutil
+import tempfile
+from typing import TYPE_CHECKING, Any, Dict, List, Union
 
 from pydantic import Field
 
-from kiara.exceptions import KiaraException
-from kiara.models.filesystem import FolderImportConfig
+from kiara.exceptions import KiaraException, KiaraProcessingException
 from kiara.models.module import KiaraModuleConfig
 from kiara.models.values.value import ValueMap
 from kiara.modules import KiaraModule, ValueMapSchema
-from kiara.registries.models import ModelRegistry
-from kiara_plugin.onboarding.models import OnboardDataModel
-from kiara_plugin.onboarding.utils.download import (
-    get_onboard_model_cls,
-    onboard_file,
-    onboard_file_bundle,
-)
+
+if TYPE_CHECKING:
+    from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBundle
 
 
 class OnboardFileConfig(KiaraModuleConfig):
 
-    onboard_type: Union[None, str] = Field(
-        description="The name of the type of onboarding.", default=None
+    result_file_name: Union[str, None] = Field(
+        description="The file name to use for the downloaded file, if not provided it will be auto-generated.",
+        default=None,
     )
     attach_metadata: Union[bool, None] = Field(
-        description="Whether to attach metadata.", default=None
+        description="Whether to attach metadata. If 'None', a user input will be created.",
+        default=True,
     )
 
 
@@ -33,69 +34,47 @@ ONBOARDING_MODEL_NAME_PREFIX = "onboarding.file.from."
 class OnboardFileModule(KiaraModule):
     """A generic module that imports a file from one of several possible sources."""
 
-    _module_type_name = "import.file"
     _config_cls = OnboardFileConfig
+
+    @abc.abstractmethod
+    def create_onboard_inputs_schema(self) -> Dict[str, Any]:
+        pass
 
     def create_inputs_schema(
         self,
     ) -> ValueMapSchema:
 
-        result = {
-            "source": {
-                "type": "string",
-                "doc": "The source uri of the file to be onboarded.",
-                "optional": False,
-            },
-            "file_name": {
-                "type": "string",
-                "doc": "The file name to use for the onboarded file (defaults to source file name if possible).",
-                "optional": True,
-            },
+        result = self.create_onboard_inputs_schema()
+
+        if "file_name" in result.keys():
+            raise KiaraException(
+                msg="The 'file_name' input is not allowed in the onboard inputs schema for an implementing class of 'OnboardFileModule'."
+            )
+        result["file_name"] = {
+            "type": "string",
+            "doc": "The file name to use for the downloaded file, if not provided it will be auto-generated.",
+            "optional": True,
         }
 
-        if self.get_config_value("attach_metadata") is None:
+        if "attach_metadata" in result.keys():
+            raise KiaraException(
+                msg="The 'attach_metadata' input is not allowed in the onboard inputs schema for an implementing class of 'OnboardFileModule'."
+            )
+
+        file_name = self.get_config_value("result_file_name")
+        if file_name is None:
+            result["file_name"] = {
+                "type": "string",
+                "doc": "The file name to use for the downloaded file, if not provided it will be generated from the last token of the url.",
+                "optional": True,
+            }
+
+        attach_metadata = self.get_config_value("attach_metadata")
+        if attach_metadata is None:
             result["attach_metadata"] = {
                 "type": "boolean",
                 "doc": "Whether to attach onboarding metadata to the result file.",
                 "default": True,
-            }
-
-        onboard_type: Union[str, None] = self.get_config_value("onboard_type")
-        if not onboard_type:
-            onboard_model_cls = None
-        else:
-            onboard_model_cls = get_onboard_model_cls(onboard_type)
-
-        if not onboard_model_cls:
-
-            available = (
-                ModelRegistry.instance()
-                .get_models_of_type(OnboardDataModel)
-                .item_infos.keys()
-            )
-
-            if not available:
-                raise KiaraException(msg="No onboard models available. This is a bug.")
-
-            idx = len(ONBOARDING_MODEL_NAME_PREFIX)
-            allowed = sorted((x[idx:] for x in available))
-
-            result["onboard_type"] = {
-                "type": "string",
-                "type_config": {"allowed_strings": allowed},
-                "doc": "The type of onboarding to use. Allowed: {}".format(
-                    ", ".join(allowed)
-                ),
-                "optional": True,
-            }
-        elif onboard_model_cls.get_config_fields():
-            result = {
-                "onboard_config": {
-                    "type": "kiara_model",
-                    "type_config": {
-                        "kiara_model_id": self.get_config_value("onboard_type"),
-                    },
-                }
             }
 
         return result
@@ -105,54 +84,59 @@ class OnboardFileModule(KiaraModule):
     ) -> ValueMapSchema:
 
         result = {"file": {"type": "file", "doc": "The file that was onboarded."}}
+
         return result
+
+    @abc.abstractmethod
+    def retrieve_file(
+        self, inputs: ValueMap, file_name: Union[str, None], attach_metadata: bool
+    ) -> "KiaraFile":
+        pass
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
 
-        onboard_type = self.get_config_value("onboard_type")
+        if "file_name" not in inputs.keys():
+            file_name = self.get_config_value("file_name")
+        else:
+            file_name = inputs.get_value_data("file_name")
 
-        source: str = inputs.get_value_data("source")
-        file_name: Union[str, None] = inputs.get_value_data("file_name")
-
-        if not onboard_type:
-
-            user_input_onboard_type = inputs.get_value_data("onboard_type")
-            if user_input_onboard_type:
-                onboard_type = (
-                    f"{ONBOARDING_MODEL_NAME_PREFIX}{user_input_onboard_type}"
-                )
-
-        attach_metadata = self.get_config_value("attach_metadata")
-        if attach_metadata is None:
+        if "attach_metadata" not in inputs.keys():
+            # must be 'True' or 'False', otherwise we'd have an input
+            attach_metadata: bool = self.get_config_value("attach_metadata")
+        else:
             attach_metadata = inputs.get_value_data("attach_metadata")
 
-        data = onboard_file(
-            source=source,
-            file_name=file_name,
-            onboard_type=onboard_type,
-            attach_metadata=attach_metadata,
-        )
+        result = self.retrieve_file(inputs, file_name, attach_metadata)
 
-        outputs.set_value("file", data)
+        outputs.set_value("file", result)
 
 
 class OnboardFileBundleConfig(KiaraModuleConfig):
 
-    onboard_type: Union[None, str] = Field(
-        description="The name of the type of onboarding.", default=None
+    result_bundle_name: Union[str, None] = Field(
+        description="The bundle name use for the downloaded file, if not provided it will be auto-generated.",
+        default=None,
     )
-    attach_metadata: Union[bool, None] = Field(
-        description="Whether to attach onboarding metadata.", default=None
+
+    attach_metadata_to_bundle: Union[bool, None] = Field(
+        description="Whether to attach the download metadata to the result file bundle instance. If 'None', a user input will be created.",
+        default=True,
+    )
+    attach_metadata_to_files: Union[bool, None] = Field(
+        description="Whether to attach the download metadata to each file in the resulting bundle.",
+        default=False,
     )
     sub_path: Union[None, str] = Field(description="The sub path to use.", default=None)
     include_files: Union[None, List[str]] = Field(
-        description="File types to include.", default=None
+        description="List of file types (strings) to include. A match happens if the end of the filename matches a token in this list.",
+        default=None,
     )
     exclude_files: Union[None, List[str]] = Field(
-        description="File types to include.", default=None
+        description="List of file types (strings) to exclude. A match happens if the end of the filename matches a token in this list.",
+        default=None,
     )
     exclude_dirs: Union[None, List[str]] = Field(
-        description="Exclude directories that end with one of those tokens.",
+        description="Exclude directories that end with one of those tokens (list of strings).",
         default=None,
     )
 
@@ -160,27 +144,52 @@ class OnboardFileBundleConfig(KiaraModuleConfig):
 class OnboardFileBundleModule(KiaraModule):
     """A generic module that imports a file from one of several possible sources."""
 
-    _module_type_name = "import.file_bundle"
     _config_cls = OnboardFileBundleConfig
+
+    @abc.abstractmethod
+    def create_onboard_inputs_schema(self) -> Dict[str, Any]:
+        pass
 
     def create_inputs_schema(
         self,
     ) -> ValueMapSchema:
 
-        result = {
-            "source": {
-                "type": "string",
-                "doc": "The source uri of the file to be onboarded.",
-                "optional": False,
-            }
-        }
+        result = self.create_onboard_inputs_schema()
 
-        if self.get_config_value("attach_metadata") is None:
-            result["attach_metadata"] = {
+        for forbidden in [
+            "bundle_name",
+            "attach_metadata_to_bundle",
+            "attach_metadata_to_files",
+            "sub_path",
+            "include_files",
+            "exclude_files",
+            "exclude_dirs",
+        ]:
+            if forbidden in result.keys():
+                raise KiaraException(
+                    msg=f"The '{forbidden}' input is not allowed in the onboard inputs schema for an implementing class of 'OnboardFileBundleModule'."
+                )
+
+        if self.get_config_value("result_bundle_name") is None:
+            result["bundle_name"] = {
+                "type": "string",
+                "doc": "The bundle name use for the downloaded file, if not provided it will be autogenerated.",
+                "optional": True,
+            }
+
+        if self.get_config_value("attach_metadata_to_bundle") is None:
+            result["attach_metadata_to_bundle"] = {
                 "type": "boolean",
-                "doc": "Whether to attach onboarding metadata.",
+                "doc": "Whether to attach the download metadata to the result file bundle instance.",
                 "default": True,
             }
+        if self.get_config_value("attach_metadata_to_files") is None:
+            result["attach_metadata_to_bundle"] = {
+                "type": "boolean",
+                "doc": "Whether to attach the download metadata to each file in the resulting bundle.",
+                "default": False,
+            }
+
         if self.get_config_value("sub_path") is None:
             result["sub_path"] = {
                 "type": "string",
@@ -207,44 +216,6 @@ class OnboardFileBundleModule(KiaraModule):
                 "optional": True,
             }
 
-        onboard_type: Union[str, None] = self.get_config_value("onboard_type")
-        if not onboard_type:
-            onboard_model_cls = None
-        else:
-            onboard_model_cls = get_onboard_model_cls(onboard_type)
-
-        if not onboard_model_cls:
-
-            available = (
-                ModelRegistry.instance()
-                .get_models_of_type(OnboardDataModel)
-                .item_infos.keys()
-            )
-
-            if not available:
-                raise KiaraException(msg="No onboard models available. This is a bug.")
-
-            idx = len(ONBOARDING_MODEL_NAME_PREFIX)
-            allowed = sorted((x[idx:] for x in available))
-
-            result["onboard_type"] = {
-                "type": "string",
-                "type_config": {"allowed_strings": allowed},
-                "doc": "The type of onboarding to use. Allowed: {}".format(
-                    ", ".join(allowed)
-                ),
-                "optional": True,
-            }
-        elif onboard_model_cls.get_config_fields():
-            result = {
-                "onboard_config": {
-                    "type": "kiara_model",
-                    "type_config": {
-                        "kiara_model_id": self.get_config_value("onboard_type"),
-                    },
-                }
-            }
-
         return result
 
     def create_outputs_schema(
@@ -261,15 +232,11 @@ class OnboardFileBundleModule(KiaraModule):
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
 
-        onboard_type = self.get_config_value("onboard_type")
-        source: str = inputs.get_value_data("source")
+        from kiara.models.filesystem import FolderImportConfig
 
-        if onboard_type:
-            user_input_onboard_type = inputs.get_value_data("onboard_type")
-            if not user_input_onboard_type:
-                onboard_type = (
-                    f"{ONBOARDING_MODEL_NAME_PREFIX}{user_input_onboard_type}"
-                )
+        bundle_name = self.get_config_value("result_bundle_name")
+        if bundle_name is None:
+            bundle_name = inputs.get_value_data("bundle_name")
 
         sub_path = self.get_config_value("sub_path")
         if sub_path is None:
@@ -302,15 +269,83 @@ class OnboardFileBundleModule(KiaraModule):
             import_config_data["exclude_dirs"] = exclude_dirs
 
         import_config = FolderImportConfig(**import_config_data)
-        attach_metadata = self.get_config_value("attach_metadata")
-        if attach_metadata is None:
-            attach_metadata = inputs.get_value_data("attach_metadata")
 
-        imported_bundle = onboard_file_bundle(
-            source=source,
+        attach_metadata_to_bundle = self.get_config_value("attach_metadata_to_bundle")
+        if attach_metadata_to_bundle is None:
+            attach_metadata_to_bundle = inputs.get_value_data(
+                "attach_metadata_to_bundle"
+            )
+
+        attach_metadata_to_files = self.get_config_value("attach_metadata_to_files")
+        if attach_metadata_to_files is None:
+            attach_metadata_to_files = inputs.get_value_data("attach_metadata_to_files")
+
+        archive = self.retrieve_archive(inputs=inputs)
+        result = self.extract_archive(
+            archive_file=archive,
+            bundle_name=bundle_name,
+            attach_metadata_to_bundle=attach_metadata_to_bundle,
+            attach_metadata_to_files=attach_metadata_to_files,
             import_config=import_config,
-            onboard_type=onboard_type,
-            attach_metadata=attach_metadata,
         )
 
-        outputs.set_value("file_bundle", imported_bundle)
+        outputs.set_value("file_bundle", result)
+
+    @abc.abstractmethod
+    def retrieve_archive(self, inputs: ValueMap) -> "KiaraFile":
+        pass
+
+    def extract_archive(
+        self,
+        archive_file: "KiaraFile",
+        bundle_name: Union[str, None],
+        attach_metadata_to_bundle: bool,
+        attach_metadata_to_files: bool,
+        import_config: "FolderImportConfig",
+    ) -> "KiaraFileBundle":
+
+        from kiara.models.filesystem import KiaraFileBundle
+
+        out_dir = tempfile.mkdtemp()
+
+        def del_out_dir():
+            shutil.rmtree(out_dir, ignore_errors=True)
+
+        atexit.register(del_out_dir)
+
+        error = None
+        try:
+            shutil.unpack_archive(archive_file.path, out_dir)
+        except Exception:
+            # try patool, maybe we're lucky
+            try:
+                import patoolib
+
+                patoolib.extract_archive(archive_file.path, outdir=out_dir)
+            except Exception as e:
+                error = e
+
+        if error is not None:
+            raise KiaraProcessingException(f"Could not extract archive: {error}.")
+
+        path = out_dir
+
+        if not bundle_name:
+            bundle_name = archive_file.file_name
+            if import_config.sub_path:
+                bundle_name = f"{bundle_name}#{import_config.sub_path}"
+
+        bundle = KiaraFileBundle.import_folder(
+            path, bundle_name=bundle_name, import_config=import_config
+        )
+
+        if attach_metadata_to_bundle:
+            metadata = archive_file.metadata["download_info"]
+            bundle.metadata["download_info"] = metadata
+
+        if attach_metadata_to_files or True:
+            metadata = archive_file.metadata["download_info"]
+            for kf in bundle.included_files.values():
+                kf.metadata["download_info"] = metadata
+
+        return bundle
