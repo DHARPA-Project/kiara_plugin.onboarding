@@ -1,0 +1,4 @@
+operation: download.file_bundle.from.github
+inputs:
+  repo: kiara_plugin.core_types
+  user: DHARPA-Project
