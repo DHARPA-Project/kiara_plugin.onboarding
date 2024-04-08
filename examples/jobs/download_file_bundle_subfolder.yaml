@@ -1,0 +1,4 @@
+operation: download.file_bundle
+inputs:
+  url: https://github.com/DHARPA-Project/kiara_plugin.core_types/archive/refs/heads/develop.zip
+  sub_path: kiara_plugin.core_types-develop/src
