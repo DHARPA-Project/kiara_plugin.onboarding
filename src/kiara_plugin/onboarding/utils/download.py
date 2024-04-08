@@ -5,7 +5,7 @@ import tempfile
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List, Mapping, Tuple, Type, Union
+from typing import Any, Dict, List, Mapping, Tuple, Type, Union
 
 from pydantic import BaseModel, Field
 
@@ -365,3 +365,72 @@ def onboard_file_bundle(
         imported_bundle = result
 
     return imported_bundle
+
+
+def download_zenodo_file_bundle(
+    doi: str,
+    version: Union[None, str],
+    attach_metadata_to_bundle: bool,
+    attach_metadata_to_files: bool,
+    bundle_name: Union[str, None] = None,
+    import_config: Union[None, Mapping[str, Any], FolderImportConfig] = None,
+) -> KiaraFileBundle:
+
+    import pyzenodo3
+
+    from kiara.models.filesystem import KiaraFile, KiaraFileBundle
+
+    if "/zenodo." not in doi:
+        doi = f"10.5281/zenodo.{doi}"
+
+    zen = pyzenodo3.Zenodo()
+
+    if version:
+        raise NotImplementedError("Downloading versioned records is not yet supported.")
+
+    record = zen.find_record_by_doi(doi)
+
+    base_path = KiaraFileBundle.create_tmp_dir()
+
+    for _available_file in record.data["files"]:
+        match = _available_file
+
+        url = match["links"]["self"]
+        checksum = match["checksum"][4:]
+
+        file_path = _available_file["key"]
+        full_path = base_path / file_path
+
+        file_name = file_path.split("/")[-1]
+
+        # TODO: filter here already, so we don't need to download files we don't want
+
+        result_file: KiaraFile
+        result_file, result_checksum = download_file(  # type: ignore
+            url=url,
+            target=full_path.as_posix(),
+            file_name=file_name,
+            attach_metadata=True,
+            return_md5_hash=True,
+        )
+
+        if checksum != result_checksum:
+            raise KiaraException(
+                msg=f"Can't download file '{file_name}' from zenodo, invalid checksum: {checksum} != {result_checksum}"
+            )
+
+    if not bundle_name:
+        bundle_name = doi
+    result = KiaraFileBundle.import_folder(
+        source=base_path.as_posix(),
+        bundle_name=bundle_name,
+        import_config=import_config,
+    )
+    if attach_metadata_to_bundle:
+        result.metadata["zenodo_record_data"] = record.data
+
+    if attach_metadata_to_files:
+        for file in result.included_files.values():
+            file.metadata["zenodo_record_data"] = record.data
+
+    return result

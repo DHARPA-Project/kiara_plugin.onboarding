@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from typing import TYPE_CHECKING, Any, Dict, Union
 
+from kiara.api import ValueMap
 from kiara.exceptions import KiaraException
-from kiara.models.values.value import ValueMap
 from kiara_plugin.onboarding.modules import OnboardFileBundleModule, OnboardFileModule
 
 if TYPE_CHECKING:
@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class DownloadZenodoFileModule(OnboardFileModule):
-    """Download a single file from a github repo."""
+    """Download a single file from a Zenodo record."""
 
     _module_type_name = "download.file.from.zenodo"
 
@@ -18,6 +18,11 @@ class DownloadZenodoFileModule(OnboardFileModule):
 
         result: Dict[str, Dict[str, Any]] = {
             "doi": {"type": "string", "doc": "The DOI."},
+            "version": {
+                "type": "string",
+                "doc": "The version of the record to download.",
+                "optional": True,
+            },
             "path": {
                 "type": "string",
                 "doc": "The path to the file/file name within the dataset.",
@@ -35,6 +40,13 @@ class DownloadZenodoFileModule(OnboardFileModule):
         from kiara_plugin.onboarding.utils.download import download_file
 
         doi = inputs.get_value_data("doi")
+
+        version = inputs.get_value_data("version")
+        if version:
+            raise NotImplementedError(
+                "Downloading versioned records is not yet supported."
+            )
+
         file_path = inputs.get_value_data("path")
 
         if "/zenodo." not in doi:
@@ -42,6 +54,18 @@ class DownloadZenodoFileModule(OnboardFileModule):
 
         zen = pyzenodo3.Zenodo()
         record = zen.find_record_by_doi(doi)
+
+        if not file_path:
+            if len(record.data["files"]) == 1:
+                file_path = record.data["files"][0]["key"]
+            else:
+                msg = "Available files:\n"
+                for key in record.data["files"]:
+                    msg += f"  - {key['key']}\n"
+
+                raise KiaraException(
+                    msg=f"Multiple files available in Zenodo record, please specify 'path' input.\n\n{msg}"
+                )
 
         match = None
         for _available_file in record.data["files"]:
@@ -93,6 +117,11 @@ class DownloadZenodoFileBundleModule(OnboardFileBundleModule):
     def create_onboard_inputs_schema(self) -> Dict[str, Any]:
         result: Dict[str, Dict[str, Any]] = {
             "doi": {"type": "string", "doc": "The DOI."},
+            "version": {
+                "type": "string",
+                "doc": "The version of the record to download. By default, the latest version will be used.",
+                "optional": True,
+            },
         }
         return result
 
@@ -105,60 +134,17 @@ class DownloadZenodoFileBundleModule(OnboardFileBundleModule):
         import_config: "FolderImportConfig",
     ) -> Union["KiaraFile", "KiaraFileBundle"]:
 
-        import pyzenodo3
-
-        from kiara.models.filesystem import KiaraFile, KiaraFileBundle
-        from kiara_plugin.onboarding.utils.download import download_file
+        from kiara_plugin.onboarding.utils.download import download_zenodo_file_bundle
 
         doi = inputs.get_value_data("doi")
+        version = inputs.get_value_data("version")
 
-        if "/zenodo." not in doi:
-            doi = f"10.5281/zenodo.{doi}"
-
-        zen = pyzenodo3.Zenodo()
-        record = zen.find_record_by_doi(doi)
-
-        base_path = KiaraFileBundle.create_tmp_dir()
-
-        for _available_file in record.data["files"]:
-            match = _available_file
-
-            url = match["links"]["self"]
-            checksum = match["checksum"][4:]
-
-            file_path = _available_file["key"]
-            full_path = base_path / file_path
-
-            file_name = file_path.split("/")[-1]
-
-            # TODO: filter here already, so we don't need to download files we don't want
-
-            result_file: KiaraFile
-            result_file, result_checksum = download_file(  # type: ignore
-                url=url,
-                target=full_path.as_posix(),
-                file_name=file_name,
-                attach_metadata=True,
-                return_md5_hash=True,
-            )
-
-            if checksum != result_checksum:
-                raise KiaraException(
-                    msg=f"Can't download file '{file_name}' from zenodo, invalid checksum: {checksum} != {result_checksum}"
-                )
-
-        if not bundle_name:
-            bundle_name = doi
-        result = KiaraFileBundle.import_folder(
-            source=base_path.as_posix(),
+        result = download_zenodo_file_bundle(
+            doi=doi,
+            version=version,
+            attach_metadata_to_bundle=attach_metadata_to_bundle,
+            attach_metadata_to_files=attach_metadata_to_files,
             bundle_name=bundle_name,
             import_config=import_config,
         )
-        if attach_metadata_to_bundle:
-            result.metadata["zenodo_record_data"] = record.data
-
-        if attach_metadata_to_files:
-            for file in result.included_files.values():
-                file.metadata["zenodo_record_data"] = record.data
-
         return result
