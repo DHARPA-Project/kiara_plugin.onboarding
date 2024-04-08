@@ -18,7 +18,7 @@ from pathlib import Path
 import pytest
 
 from kiara.context import KiaraConfig
-from kiara.interfaces.python_api import KiaraAPI
+from kiara.interfaces.python_api.base_api import BaseAPI
 from kiara.interfaces.python_api.models.job import JobTest
 from kiara.utils.testing import get_tests_for_job, list_job_descs
 
@@ -37,11 +37,11 @@ def create_temp_dir():
 
 
 @pytest.fixture
-def kiara_api() -> KiaraAPI:
+def kiara_api() -> BaseAPI:
 
     instance_path = create_temp_dir()
     kc = KiaraConfig.create_in_folder(instance_path)
-    api = KiaraAPI(kc)
+    api = BaseAPI(kc)
     return api
 
 
