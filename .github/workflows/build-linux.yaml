@@ -26,11 +26,18 @@ jobs:
           python-version: "${{ matrix.python_version }}"
       - uses: actions/checkout@v3
       - name: install kiara_plugin.onboarding
-        run: pip install -U .[all,dev_testing]
+        run: pip install -U .[dev_testing]
       - name: display installed kiara and module package versions
         run: pip list | grep kiara
-      - name: Test with pytest
-        run: make test
+      - name: test with pytest
+        run: pytest --cov-report=xml --cov=kiara_plugin.onboarding tests
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel: true
+          flag-name: run ${{ join(matrix.*, ' - ') }}
+          format: cobertura
+          file: coverage.xml
 
 # Uncomment this if you have coveralls.io setup with this repo
 #  coverage:
@@ -53,8 +60,6 @@ jobs:
 #        env:
 #          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}""
 
-
-# Uncomment this if you want to run mypy
   mypy-linux:
     name: mypy check on linux
     runs-on: ubuntu-latest
@@ -68,7 +73,7 @@ jobs:
           python-version: "${{ matrix.python_version }}"
       - uses: actions/checkout@v3
       - name: install kiara_plugin.onboarding
-        run: pip install -U .[all,dev_testing]
+        run: pip install -U .[dev_testing]
       - name: Test with mypy
         run: make mypy
 
@@ -143,8 +148,8 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test-linux
-      - mypy-linux   # uncomment if this step is enabled
-      - linting-linux   # uncomment if this step is enabled
+      - mypy-linux
+      - linting-linux
     steps:
       - name: "Set up Python 3.11"
         uses: actions/setup-python@v4
