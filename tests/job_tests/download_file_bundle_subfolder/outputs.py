@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from kiara.models.filesystem import KiaraFileBundle
 from kiara.models.values.value import Value
 
@@ -18,5 +20,6 @@ def check_downloaded_file(file_bundle: Value):
     ), f"Expected a KiaraFileBundle object, got: {kiara_file_bundle.__class__}"
 
     assert (
-        "kiara_plugin/core_types/defaults.py" in kiara_file_bundle.included_files.keys()
+        f"kiara_plugin{os.path.sep}core_types{os.path.sep}defaults.py"
+        in kiara_file_bundle.included_files.keys()
     ), f"Expected 'kiara_plugin/core_types/defaults.py' in included files, got: {kiara_file_bundle.included_files.keys()}"
