@@ -22,4 +22,4 @@ def check_downloaded_file(file_bundle: Value):
     assert (
         f"kiara_plugin{os.path.sep}core_types{os.path.sep}defaults.py"
         in kiara_file_bundle.included_files.keys()
-    ), f"Expected 'kiara_plugin/core_types/defaults.py' in included files, got: {kiara_file_bundle.included_files.keys()}"
+    ), f"Expected 'kiara_plugin{os.path.sep}core_types{os.path.sep}defaults.py' in included files, got: {kiara_file_bundle.included_files.keys()}"

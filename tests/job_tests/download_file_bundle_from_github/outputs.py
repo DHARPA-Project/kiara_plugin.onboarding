@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from kiara.models.filesystem import KiaraFileBundle
 from kiara.models.values.value import Value
 
@@ -12,6 +14,6 @@ def check_downloaded_file(file_bundle: Value):
     assert kiara_file_bundle.__class__ == KiaraFileBundle
 
     assert (
-        "kiara_plugin.core_types-main/.gitignore"
+        f"kiara_plugin.core_types-main{os.path.sep}.gitignore"
         in kiara_file_bundle.included_files.keys()
     )
