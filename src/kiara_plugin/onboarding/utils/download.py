@@ -69,6 +69,7 @@ def download_file(
         tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=file_name)
 
         def rm_tmp_file():
+            tmp_file.close()
             os.unlink(tmp_file.name)
 
         atexit.register(rm_tmp_file)
