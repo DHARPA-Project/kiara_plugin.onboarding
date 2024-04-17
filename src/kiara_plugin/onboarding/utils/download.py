@@ -145,10 +145,15 @@ def download_file_bundle(
         suffix = ""
 
     tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-    atexit.register(tmp_file.close)
+
+    def rm_tmp_file():
+        tmp_file.close()
+        os.unlink(tmp_file.name)
+
+    atexit.register(rm_tmp_file)
 
     history = []
-    datetime.utcnow().replace(tzinfo=pytz.utc)
+    # datetime.utcnow().replace(tzinfo=pytz.utc)
     with open(tmp_file.name, "wb") as f:
         with httpx.stream("GET", url, follow_redirects=True) as r:
             history.append(dict(r.headers))

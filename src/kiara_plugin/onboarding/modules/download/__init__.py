@@ -90,8 +90,12 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
             suffix = ""
 
         tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
-        atexit.register(tmp_file.close)
 
+        def rm_tmp_file():
+            tmp_file.close()
+            os.unlink(tmp_file.name)
+
+        atexit.register(rm_tmp_file)
         kiara_file: KiaraFile
 
         kiara_file = download_file(  # type: ignore
