@@ -5,12 +5,18 @@ from kiara.models.values.value import Value
 
 def check_downloaded_file(file_bundle: Value):
 
-    assert file_bundle.data_type_name == "file_bundle"
-    assert file_bundle.value_size > 144000
+    assert (
+        file_bundle.data_type_name == "file_bundle"
+    ), f"Expected a file_bundle value, got: {file_bundle.data_type_name}"
+    assert (
+        file_bundle.value_size > 144000
+    ), f"Expected a file_bundle value with size > 144000, got: {file_bundle.value_size}"
 
     kiara_file_bundle: KiaraFileBundle = file_bundle.data
-    assert kiara_file_bundle.__class__ == KiaraFileBundle
+    assert (
+        kiara_file_bundle.__class__ == KiaraFileBundle
+    ), f"Expected a KiaraFileBundle object, got: {kiara_file_bundle.__class__}"
 
     assert (
         "kiara_plugin/core_types/defaults.py" in kiara_file_bundle.included_files.keys()
-    )
+    ), f"Expected 'kiara_plugin/core_types/defaults.py' in included files, got: {kiara_file_bundle.included_files.keys()}"
