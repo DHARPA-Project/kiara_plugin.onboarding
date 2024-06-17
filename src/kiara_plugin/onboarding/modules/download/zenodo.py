@@ -106,9 +106,9 @@ class DownloadZenodoFileModule(OnboardFileModule):
 
 
 class DownloadZenodoFileBundleModule(OnboardFileBundleModule):
-    """Download a file bundle from a remote github repository.
+    """Download a file bundle from a remote zenodo record.
 
-    If 'sub_path' is not specified, the whole repo will be used.
+    If 'sub_path' is not specified, the whole record will be used.
 
     """
 
