@@ -64,4 +64,4 @@ ci/conda/**/build
 ci/conda/kiara_plugin.onboarding/meta.yaml
 .pixi
 pixi.lock
-dev.py
+output/

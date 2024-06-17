@@ -12,7 +12,7 @@ test:
   imports:
     - kiara_plugin.onboarding
   source_files:
-    - tests
-    - examples
+    - tests/
+    - examples/
   commands:
     - kiara module list

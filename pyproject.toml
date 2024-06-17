@@ -47,7 +47,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12"
 ]
 dependencies = [
-    "kiara>=0.5.10,<0.6.0",
+    "kiara>=0.5.11,<0.6.0",
     "kiara_plugin.core_types>=0.5.1,<0.6.0",
     "httpx>=0.23.0",
     "pyzenodo3>=1.0.2",
@@ -65,12 +65,6 @@ dev_testing = [
 ]
 dev_utils = [
     "kiara[dev_utils]",
-]
-dev_all = [
-    "kiara[dev_all]"
-]
-streamlit = [
-    "kiara_plugin.streamlit"
 ]
 
 [project.entry-points."kiara.plugin"]
@@ -252,3 +246,26 @@ module = [
     "ruamel.*"
 ]
 ignore_missing_imports = true
+
+[tool.pixi.project]
+channels = ["dharpa", "conda-forge"]
+platforms = ["linux-64", "win-64", "osx-64", "osx-arm64"]
+
+[tool.pixi.dependencies]
+pip = ">=24.0,<25"
+
+[tool.pixi.pypi-dependencies]
+onboarding = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+#dev = { features = ["dev_utils"], solve-group = "default" }
+
+[tool.pixi.tasks]
+pre-commit-check = "pre-commit run --all-files"
+tests = "py.test"
+mypy = "mypy  --namespace-packages --explicit-package-base src/kiara_plugin/onboarding"
+kiara = "kiara"
+show-versions = "kiara --version"
+delete-context = "kiara context delete"
+install-dev-dependencies = "pip install --upgrade -e '.[dev_utils]'"
