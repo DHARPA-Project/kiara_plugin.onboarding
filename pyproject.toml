@@ -226,7 +226,9 @@ plugins = [
 [[tool.mypy.overrides]]
 module = [
     "appdirs.*",
+    "patoolib.*",
     "pyarrow.*",
+    "pyzenodo3.*",
     "ruamel.*"
 ]
 ignore_missing_imports = true
