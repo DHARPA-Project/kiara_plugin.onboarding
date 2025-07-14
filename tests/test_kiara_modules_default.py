@@ -9,5 +9,4 @@ import kiara_plugin.onboarding
 
 
 def test_assert():
-
     assert kiara_plugin.onboarding.get_version() is not None

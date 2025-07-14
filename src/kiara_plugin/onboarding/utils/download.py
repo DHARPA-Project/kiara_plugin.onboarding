@@ -36,9 +36,8 @@ class DownloadBundleMetadata(DownloadMetadata):
 
 @lru_cache()
 def get_onboard_model_cls(
-    onboard_type: Union[str, None]
+    onboard_type: Union[str, None],
 ) -> Union[None, Type[OnboardDataModel]]:
-
     if not onboard_type:
         return None
 
@@ -56,7 +55,6 @@ def download_file(
     attach_metadata: bool = True,
     return_md5_hash: bool = False,
 ) -> Union[KiaraFile, Tuple[KiaraFile, str]]:
-
     import hashlib
 
     import httpx
@@ -127,7 +125,6 @@ def download_file_bundle(
     attach_metadata: bool = True,
     import_config: Union[FolderImportConfig, None] = None,
 ) -> KiaraFileBundle:
-
     import shutil
     from datetime import datetime
     from urllib.parse import urlparse
@@ -210,7 +207,6 @@ def download_file_bundle(
 def find_matching_onboard_models(
     uri: str, for_bundle: bool = False
 ) -> Mapping[Type[OnboardDataModel], Tuple[bool, str]]:
-
     from kiara.registries.models import ModelRegistry
 
     model_registry = ModelRegistry.instance()
@@ -221,7 +217,6 @@ def find_matching_onboard_models(
     result = {}
     onboard_model: Type[OnboardDataModel]
     for onboard_model in onboard_models:  # type: ignore
-
         python_cls: Type[OnboardDataModel] = onboard_model.python_class.get_class()  # type: ignore
         if for_bundle:
             result[python_cls] = python_cls.accepts_bundle_uri(uri)
@@ -237,9 +232,7 @@ def onboard_file(
     onboard_type: Union[str, None] = None,
     attach_metadata: bool = True,
 ) -> KiaraFile:
-
     if not onboard_type:
-
         model_clsses = find_matching_onboard_models(source)
         matches = [k for k, v in model_clsses.items() if v[0]]
         if not matches:
@@ -259,14 +252,17 @@ def onboard_file(
         model_cls: Type[OnboardDataModel] = matches[0]
 
     else:
-
         model_cls = get_onboard_model_cls(onboard_type=onboard_type)  # type: ignore
         if not model_cls:
-            raise KiaraException(msg=f"Can't onboard file from '{source}' using onboard type '{onboard_type}': no onboard model found with this name.")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file from '{source}' using onboard type '{onboard_type}': no onboard model found with this name."
+            )  # type: ignore
 
         valid, msg = model_cls.accepts_uri(source)
         if not valid:
-            raise KiaraException(msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': {msg}")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': {msg}"
+            )  # type: ignore
 
     if not model_cls.get_config_fields():
         model = model_cls()
@@ -277,7 +273,9 @@ def onboard_file(
         uri=source, file_name=file_name, attach_metadata=attach_metadata
     )
     if not result:
-        raise KiaraException(msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug.")  # type: ignore
+        raise KiaraException(
+            msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug."
+        )  # type: ignore
 
     if isinstance(result, str):
         data = KiaraFile.load_file(result, file_name=file_name)
@@ -297,9 +295,7 @@ def onboard_file_bundle(
     onboard_type: Union[str, None] = None,
     attach_metadata: bool = True,
 ) -> KiaraFileBundle:
-
     if not onboard_type:
-
         model_clsses = find_matching_onboard_models(uri=source, for_bundle=True)
         matches = [k for k, v in model_clsses.items() if v[0]]
         if not matches:
@@ -321,10 +317,14 @@ def onboard_file_bundle(
     else:
         model_cls = get_onboard_model_cls(onboard_type=onboard_type)  # type: ignore
         if not model_cls:
-            raise KiaraException(msg=f"Can't onboard file from '{source}' using onboard type '{onboard_type}': no onboard model found with this name.")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file from '{source}' using onboard type '{onboard_type}': no onboard model found with this name."
+            )  # type: ignore
         valid, msg = model_cls.accepts_bundle_uri(source)
         if not valid:
-            raise KiaraException(msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': {msg}")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file from '{source}' using onboard type '{model_cls._kiara_model_id}': {msg}"
+            )  # type: ignore
 
     if not model_cls.get_config_fields():
         model = model_cls()
@@ -340,7 +340,9 @@ def onboard_file_bundle(
         )
 
         if not result:
-            raise KiaraException(msg=f"Can't onboard file bundle from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug.")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file bundle from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug."
+            )  # type: ignore
 
         if isinstance(result, str):
             result = KiaraFileBundle.import_folder(source=result)
@@ -353,7 +355,9 @@ def onboard_file_bundle(
             uri=source, file_name=None, attach_metadata=attach_metadata
         )
         if not result_file:
-            raise KiaraException(msg=f"Can't onboard file bundle from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug.")  # type: ignore
+            raise KiaraException(
+                msg=f"Can't onboard file bundle from '{source}' using onboard type '{model_cls._kiara_model_id}': no result data retrieved. This is most likely a bug."
+            )  # type: ignore
 
         if isinstance(result, str):
             imported_bundle_file = KiaraFile.load_file(result_file)  # type: ignore
@@ -381,7 +385,6 @@ def download_zenodo_file_bundle(
     bundle_name: Union[str, None] = None,
     import_config: Union[None, Mapping[str, Any], FolderImportConfig] = None,
 ) -> KiaraFileBundle:
-
     import pyzenodo3
 
     from kiara.models.filesystem import KiaraFile, KiaraFileBundle

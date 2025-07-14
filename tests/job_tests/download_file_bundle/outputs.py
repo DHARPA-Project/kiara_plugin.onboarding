@@ -6,7 +6,6 @@ from kiara.models.values.value import Value
 
 
 def check_downloaded_file(file_bundle: Value):
-
     assert file_bundle.data_type_name == "file_bundle"
     assert file_bundle.value_size > 400000
 

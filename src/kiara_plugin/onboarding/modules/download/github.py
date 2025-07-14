@@ -14,7 +14,6 @@ class DownloadGithubFileModule(OnboardFileModule):
     _module_type_name = "download.file.from.github"
 
     def create_onboard_inputs_schema(self) -> Dict[str, Any]:
-
         result: Dict[str, Dict[str, Any]] = {
             "user": {"type": "string", "doc": "The username/org-name."},
             "repo": {"type": "string", "doc": "The repository name."},
@@ -33,7 +32,6 @@ class DownloadGithubFileModule(OnboardFileModule):
     def retrieve_file(
         self, inputs: ValueMap, file_name: Union[str, None], attach_metadata: bool
     ) -> Any:
-
         from kiara_plugin.onboarding.utils.download import download_file
 
         user = inputs.get_value_data("user")
@@ -78,7 +76,6 @@ class DownloadGithbFileBundleModule(OnboardFileBundleModule):
         attach_metadata_to_files: bool,
         import_config: "FolderImportConfig",
     ) -> Union["KiaraFile", "KiaraFileBundle"]:
-
         from kiara_plugin.onboarding.utils.download import download_file
 
         user = inputs.get_value_data("user")

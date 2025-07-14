@@ -15,7 +15,6 @@ class DownloadZenodoFileModule(OnboardFileModule):
     _module_type_name = "download.file.from.zenodo"
 
     def create_onboard_inputs_schema(self) -> Dict[str, Any]:
-
         result: Dict[str, Dict[str, Any]] = {
             "doi": {"type": "string", "doc": "The DOI."},
             "version": {
@@ -34,7 +33,6 @@ class DownloadZenodoFileModule(OnboardFileModule):
     def retrieve_file(
         self, inputs: ValueMap, file_name: Union[str, None], attach_metadata: bool
     ) -> Any:
-
         import pyzenodo3
 
         from kiara_plugin.onboarding.utils.download import download_file
@@ -133,7 +131,6 @@ class DownloadZenodoFileBundleModule(OnboardFileBundleModule):
         attach_metadata_to_files: bool,
         import_config: "FolderImportConfig",
     ) -> Union["KiaraFile", "KiaraFileBundle"]:
-
         from kiara_plugin.onboarding.utils.download import download_zenodo_file_bundle
 
         doi = inputs.get_value_data("doi")

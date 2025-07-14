@@ -4,7 +4,6 @@ from kiara.models.values.value import Value
 
 
 def check_downloaded_file(file: Value):
-
     assert file.data_type_name == "file"
     assert file.value_size > 2000
 

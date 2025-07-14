@@ -17,7 +17,6 @@ if TYPE_CHECKING:
 
 
 class OnboardFileConfig(KiaraModuleConfig):
-
     result_file_name: Union[str, None] = Field(
         description="The file name to use for the downloaded file, if not provided it will be auto-generated.",
         default=None,
@@ -43,7 +42,6 @@ class OnboardFileModule(KiaraModule):
     def create_inputs_schema(
         self,
     ) -> ValueMapSchema:
-
         result = self.create_onboard_inputs_schema()
 
         if "file_name" in result.keys():
@@ -82,7 +80,6 @@ class OnboardFileModule(KiaraModule):
     def create_outputs_schema(
         self,
     ) -> ValueMapSchema:
-
         result = {"file": {"type": "file", "doc": "The file that was onboarded."}}
 
         return result
@@ -94,7 +91,6 @@ class OnboardFileModule(KiaraModule):
         pass
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
-
         if "file_name" not in inputs.keys():
             file_name = self.get_config_value("file_name")
         else:
@@ -112,7 +108,6 @@ class OnboardFileModule(KiaraModule):
 
 
 class OnboardFileBundleConfig(KiaraModuleConfig):
-
     result_bundle_name: Union[str, None] = Field(
         description="The bundle name use for the downloaded file, if not provided it will be auto-generated.",
         default=None,
@@ -153,7 +148,6 @@ class OnboardFileBundleModule(KiaraModule):
     def create_inputs_schema(
         self,
     ) -> ValueMapSchema:
-
         result = self.create_onboard_inputs_schema()
 
         for forbidden in [
@@ -221,7 +215,6 @@ class OnboardFileBundleModule(KiaraModule):
     def create_outputs_schema(
         self,
     ) -> ValueMapSchema:
-
         result = {
             "file_bundle": {
                 "type": "file_bundle",
@@ -231,7 +224,6 @@ class OnboardFileBundleModule(KiaraModule):
         return result
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
-
         from kiara.models.filesystem import FolderImportConfig, KiaraFileBundle
 
         bundle_name = self.get_config_value("result_bundle_name")

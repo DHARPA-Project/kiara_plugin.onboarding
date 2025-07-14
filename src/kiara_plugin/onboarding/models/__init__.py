@@ -8,6 +8,7 @@ other type of models -- that is attached to data, as well as *kiara* modules.
 Metadata models must be a sub-class of [kiara.metadata.MetadataModel][kiara.metadata.MetadataModel]. Other models usually
 sub-class a pydantic BaseModel or implement custom base classes.
 """
+
 import os.path
 from abc import abstractmethod
 from typing import ClassVar, List, Tuple, Union
@@ -18,7 +19,6 @@ from kiara.models.filesystem import FolderImportConfig, KiaraFile, KiaraFileBund
 
 
 class OnboardDataModel(KiaraModel):
-
     _kiara_model_id: ClassVar[str] = None  # type: ignore
 
     @classmethod
@@ -47,12 +47,10 @@ class OnboardDataModel(KiaraModel):
 
 
 class FileFromLocalModel(OnboardDataModel):
-
     _kiara_model_id: ClassVar[str] = "onboarding.file.from.local_file"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
-
         if os.path.isfile(os.path.abspath(uri)):
             return True, "local file exists and is file"
         else:
@@ -60,7 +58,6 @@ class FileFromLocalModel(OnboardDataModel):
 
     @classmethod
     def accepts_bundle_uri(cls, uri: str) -> Tuple[bool, str]:
-
         if os.path.isdir(os.path.abspath(uri)):
             return True, "local folder exists and is folder"
         else:
@@ -69,7 +66,6 @@ class FileFromLocalModel(OnboardDataModel):
     def retrieve(
         self, uri: str, file_name: Union[None, str], attach_metadata: bool
     ) -> KiaraFile:
-
         if not os.path.exists(os.path.abspath(uri)):
             raise KiaraException(
                 f"Can't create file from path '{uri}': path does not exist."
@@ -84,7 +80,6 @@ class FileFromLocalModel(OnboardDataModel):
     def retrieve_bundle(
         self, uri: str, import_config: FolderImportConfig, attach_metadata: bool
     ) -> KiaraFileBundle:
-
         if not os.path.exists(os.path.abspath(uri)):
             raise KiaraException(
                 f"Can't create file from path '{uri}': path does not exist."
@@ -98,12 +93,10 @@ class FileFromLocalModel(OnboardDataModel):
 
 
 class FileFromRemoteModel(OnboardDataModel):
-
     _kiara_model_id: ClassVar[str] = "onboarding.file.from.url"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
-
         accepted_protocols = ["http", "https"]
         for protocol in accepted_protocols:
             if uri.startswith(f"{protocol}://"):
@@ -133,12 +126,10 @@ class FileFromRemoteModel(OnboardDataModel):
 
 
 class FileFromZenodoModel(OnboardDataModel):
-
     _kiara_model_id: ClassVar[str] = "onboarding.file.from.zenodo"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
-
         if uri.startswith("zenodo:"):
             return True, "url is valid (follows format 'zenodo:<doi>')"
 
@@ -150,7 +141,6 @@ class FileFromZenodoModel(OnboardDataModel):
     def retrieve(
         self, uri: str, file_name: Union[None, str], attach_metadata: bool
     ) -> KiaraFile:
-
         import pyzenodo3
 
         from kiara_plugin.onboarding.utils.download import download_file
@@ -219,7 +209,6 @@ class FileFromZenodoModel(OnboardDataModel):
     def retrieve_bundle(
         self, uri: str, import_config: FolderImportConfig, attach_metadata: bool
     ) -> KiaraFileBundle:
-
         import shutil
 
         import pyzenodo3
@@ -249,7 +238,6 @@ class FileFromZenodoModel(OnboardDataModel):
         _doi = f"{tokens[0]}/zenodo.{zid}"
 
         if not file_path:
-
             zen = pyzenodo3.Zenodo()
 
             record = zen.find_record_by_doi(_doi)
@@ -283,7 +271,6 @@ class FileFromZenodoModel(OnboardDataModel):
                 bundle.metadata["zenodo_record_data"] = record.data
 
         else:
-
             zen = pyzenodo3.Zenodo()
             record = zen.find_record_by_doi(_doi)
 
@@ -329,7 +316,6 @@ class FileFromZenodoModel(OnboardDataModel):
 
 
 class FileFromZoteroModel(OnboardDataModel):
-
     _kiara_model_id: ClassVar[str] = "onboarding.file.from.zotero"
 
     @classmethod
@@ -341,12 +327,10 @@ class FileFromZoteroModel(OnboardDataModel):
 
 
 class FileFromGithubModel(OnboardDataModel):
-
     _kiara_model_id: ClassVar[str] = "onboarding.file.from.github"
 
     @classmethod
     def accepts_uri(cls, uri: str) -> Tuple[bool, str]:
-
         if uri.startswith("gh:") or uri.startswith("github:"):
             return True, "uri is a github uri"
 
@@ -373,7 +357,6 @@ class FileFromGithubModel(OnboardDataModel):
     def retrieve_bundle(
         self, uri: str, import_config: FolderImportConfig, attach_metadata: bool
     ) -> KiaraFileBundle:
-
         from kiara_plugin.onboarding.utils.download import download_file
 
         tokens = uri.split(":")[1].split("/", maxsplit=3)
@@ -401,7 +384,9 @@ class FileFromGithubModel(OnboardDataModel):
 
         if sub_path:
             if import_config.sub_path:
-                new_sub_path = "/".join([base_sub_path, sub_path, import_config.sub_path])  # type: ignore
+                new_sub_path = "/".join(
+                    [base_sub_path, sub_path, import_config.sub_path]
+                )  # type: ignore
             else:
                 new_sub_path = "/".join([base_sub_path, sub_path])
         elif import_config.sub_path:

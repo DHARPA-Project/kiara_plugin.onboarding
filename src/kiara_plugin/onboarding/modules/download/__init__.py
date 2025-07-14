@@ -20,7 +20,6 @@ class DownloadFileModule(OnboardFileModule):
     _module_type_name = "download.file"
 
     def create_onboard_inputs_schema(self) -> Dict[str, Any]:
-
         result: Dict[str, Dict[str, Any]] = {
             "url": {"type": "string", "doc": "The url of the file to download."},
         }
@@ -29,7 +28,6 @@ class DownloadFileModule(OnboardFileModule):
     def retrieve_file(
         self, inputs: ValueMap, file_name: Union[str, None], attach_metadata: bool
     ) -> Any:
-
         from kiara_plugin.onboarding.utils.download import download_file
 
         url = inputs.get_value_data("url")
@@ -55,7 +53,6 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
     _module_type_name = "download.file_bundle"
 
     def create_onboard_inputs_schema(self) -> Dict[str, Any]:
-
         result: Dict[str, Dict[str, Any]] = {
             "url": {
                 "type": "string",
@@ -73,7 +70,6 @@ class DownloadFileBundleModule(OnboardFileBundleModule):
         attach_metadata_to_files: bool,
         import_config: "FolderImportConfig",
     ) -> Union["KiaraFile", "KiaraFileBundle"]:
-
         from urllib.parse import urlparse
 
         from kiara.models.filesystem import KiaraFile
