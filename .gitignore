@@ -11,7 +11,7 @@
 __pycache__/*
 .cache/*
 .*.swp
-*/.ipynb_checkpoints/*
+**/.ipynb_checkpoints/**
 
 # Project files
 .ropeproject
@@ -65,3 +65,8 @@ ci/conda/kiara_plugin.onboarding/meta.yaml
 .pixi
 pixi.lock
 output/
+uv.lock
+.init.log
+.init.pid
+
+
